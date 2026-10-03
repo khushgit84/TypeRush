@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>TypeRush — Typing Speed Test</title>
+  <meta name="description" content="Test and improve your typing speed with TypeRush. Track WPM, accuracy, and consistency in a beautiful dark interface." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- Animated background -->
+  <div class="bg-mesh">
+    <div class="mesh-blob mesh-1"></div>
+    <div class="mesh-blob mesh-2"></div>
+    <div class="mesh-blob mesh-3"></div>
+  </div>
+
+  <div class="app" id="app">
+
+    <!-- Header -->
+    <header class="header">
+      <div class="logo">
+        <svg class="logo-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="2" y="4" width="20" height="16" rx="2"/>
+          <path d="M6 8h.01M10 8h.01M14 8h.01M18 8h.01M8 12h.01M12 12h.01M16 12h.01M7 16h10"/>
+        </svg>
+        <h1>TypeRush</h1>
+      </div>
+      <p class="tagline">How fast can you type?</p>
+    </header>
+
+    <!-- Live Stats Bar -->
+    <div class="live-stats" id="live-stats">
+      <div class="live-stat">
+        <span class="live-stat-value" id="live-wpm">0</span>
+        <span class="live-stat-label">WPM</span>
+      </div>
+      <div class="live-stat-divider"></div>
+      <div class="live-stat">
+        <span class="live-stat-value" id="live-accuracy">100</span>
+        <span class="live-stat-label">Accuracy %</span>
+      </div>
+      <div class="live-stat-divider"></div>
+      <div class="live-stat">
+        <span class="live-stat-value" id="live-timer">30</span>
+        <span class="live-stat-label">Seconds</span>
+      </div>
+      <div class="live-stat-divider"></div>
+      <div class="live-stat">
+        <span class="live-stat-value" id="live-chars">0</span>
+        <span class="live-stat-label">Characters</span>
+      </div>
+    </div>
+
+    <!-- Duration Tabs -->
+    <div class="duration-tabs" id="duration-tabs">
+      <button class="dur-tab" data-duration="15">15s</button>
+      <button class="dur-tab active" data-duration="30">30s</button>
+      <button class="dur-tab" data-duration="60">60s</button>
+      <button class="dur-tab" data-duration="120">120s</button>
+      <div class="dur-indicator"></div>
+    </div>
+
+    <!-- Typing Area -->
+    <div class="typing-card" id="typing-card">
+      <div class="text-display" id="text-display">
+        <!-- Characters rendered here -->
+      </div>
+      <div class="input-row">
+        <input
+          type="text"
+          class="typing-input"
+          id="typing-input"
+          placeholder="Click here and start typing..."
+          autocomplete="off"
+          autocorrect="off"
+          autocapitalize="off"
+          spellcheck="false"
+        />
+      </div>
+      <div class="typing-hint" id="typing-hint">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16">
+          <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/>
+        </svg>
+        Start typing to begin the test
+      </div>
+    </div>
+
+    <!-- Restart Button -->
+    <button class="btn-restart" id="btn-restart" title="Restart Test">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" width="20" height="20">
+        <polyline points="1 4 1 10 7 10"/>
+        <path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"/>
+      </svg>
+      <span>Restart</span>
+    </button>
+
+    <!-- Results Overlay -->
+    <div class="results-overlay" id="results-overlay">
+      <div class="results-card" id="results-card">
+        <div class="results-header">
+          <h2>Test Complete!</h2>
+          <p class="results-sub" id="results-sub">Great effort! Keep practicing.</p>
+        </div>
+
+        <div class="results-wpm-ring">
+          <svg class="wpm-ring" viewBox="0 0 180 180">
+            <defs>
+              <linearGradient id="wpm-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="#f59e0b" />
+                <stop offset="100%" stop-color="#ef4444" />
+              </linearGradient>
+            </defs>
+            <circle cx="90" cy="90" r="78" class="wpm-ring-bg"/>
+            <circle cx="90" cy="90" r="78" class="wpm-ring-fill" stroke="url(#wpm-grad)"/>
+          </svg>
+          <div class="wpm-ring-text">
+            <span class="wpm-ring-value" id="result-wpm">0</span>
+            <span class="wpm-ring-label">WPM</span>
+          </div>
+        </div>
+
+        <div class="results-grid">
+          <div class="result-item">
+            <span class="result-icon">🎯</span>
+            <span class="result-val" id="result-accuracy">0%</span>
+            <span class="result-lbl">Accuracy</span>
+          </div>
+          <div class="result-item">
+            <span class="result-icon">✅</span>
+            <span class="result-val" id="result-correct">0</span>
+            <span class="result-lbl">Correct</span>
+          </div>
+          <div class="result-item">
+            <span class="result-icon">❌</span>
+            <span class="result-val" id="result-wrong">0</span>
+            <span class="result-lbl">Wrong</span>
+          </div>
+          <div class="result-item">
+            <span class="result-icon">⚡</span>
+            <span class="result-val" id="result-cpm">0</span>
+            <span class="result-lbl">CPM</span>
+          </div>
+          <div class="result-item">
+            <span class="result-icon">📝</span>
+            <span class="result-val" id="result-words">0</span>
+            <span class="result-lbl">Words</span>
+          </div>
+          <div class="result-item">
+            <span class="result-icon">⏱️</span>
+            <span class="result-val" id="result-time">30s</span>
+            <span class="result-lbl">Duration</span>
+          </div>
+        </div>
+
+        <button class="btn-try-again" id="btn-try-again">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" width="18" height="18">
+            <polyline points="1 4 1 10 7 10"/>
+            <path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"/>
+          </svg>
+          Try Again
+        </button>
+      </div>
+    </div>
+
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
